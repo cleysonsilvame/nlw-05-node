@@ -21,7 +21,6 @@ document.querySelector('#start_chat').addEventListener('click', event => {
       email,
       text,
     };
-
     socket.emit('client_first_access', params, (call, err) => {
       if (err) {
         console.err(err);
@@ -34,7 +33,6 @@ document.querySelector('#start_chat').addEventListener('click', event => {
   socket.on('client_list_all_messages', messages => {
     var template_client = document.getElementById('message-user-template')
       .innerHTML;
-
     var template_admin = document.getElementById('admin-template').innerHTML;
 
     messages.forEach(message => {
@@ -57,6 +55,7 @@ document.querySelector('#start_chat').addEventListener('click', event => {
 
   socket.on('admin_send_to_client', message => {
     socket_admin_id = message.socket_id;
+
     const template_admin = document.getElementById('admin-template').innerHTML;
 
     const rendered = Mustache.render(template_admin, {

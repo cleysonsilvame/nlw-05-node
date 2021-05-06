@@ -5,8 +5,8 @@ import { MessagesService } from '../services/MessagesService';
 io.on('connect', async socket => {
   const connectionsService = new ConnectionsService();
   const messagesService = new MessagesService();
-  const allConnectionsWithoutAdmin = await connectionsService.findAllWithoutAdmin();
 
+  const allConnectionsWithoutAdmin = await connectionsService.findAllWithoutAdmin();
   io.emit('admin_list_all_users', allConnectionsWithoutAdmin);
 
   socket.on('admin_list_messages_by_user', async (params, callback) => {
@@ -18,7 +18,7 @@ io.on('connect', async socket => {
   });
 
   socket.on('admin_send_message', async params => {
-    const { text, user_id } = params;
+    const { user_id, text } = params;
 
     await messagesService.create({
       text,
@@ -36,7 +36,6 @@ io.on('connect', async socket => {
 
   socket.on('admin_user_in_support', async params => {
     const { user_id } = params;
-
     await connectionsService.updateAdminID(user_id, socket.id);
 
     const allConnectionsWithoutAdmin = await connectionsService.findAllWithoutAdmin();
